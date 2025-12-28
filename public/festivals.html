@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festivals | Murugar Kovil</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <span class="main-logo">Murugar Kovil</span>
+            <span class="sub-logo">A B O D E O F G R A C E</span>
+        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/history.html">History</a></li>
+            <li><a href="/specialities.html">Specialities</a></li>
+            <li><a href="/timings.html">Timings</a></li>
+            <li><a href="/festivals.html" style="color: var(--accent);">Festivals</a></li>
+            <li><a href="/gallery.html">Gallery</a></li>
+            <li><a href="/admin.html">Admin</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero"
+        style="height: 50vh; background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/images.jpg');">
+        <div class="hero-content">
+            <span class="divine-text">Sacred</span>
+            <h1>Festivals & Functions</h1>
+            <p>Celebrate the divine rhythm of the soul with us.</p>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="section-title-wrap">
+                <span class="section-subtitle">A N N U A L C E L E B R A T I O N S</span>
+                <h2 class="section-title">Divine Gatherings</h2>
+            </div>
+
+            <div id="festivals-container" class="festival-grid">
+                <!-- Data loaded via JS -->
+                <div style="text-align: center; color: var(--accent); grid-column: 1/-1;">
+                    <p>Fetching sacred festivals from the shrine...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="logo">
+            <span class="main-logo">Murugar Kovil</span>
+        </div>
+        <p>© 2025 Arulmigu Murugar Kovil. All Rights Reserved.</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        async function loadFestivals() {
+            try {
+                // Add a cache-busting timestamp to ensure fresh data
+                const response = await fetch('/api/festivals?t=' + Date.now());
+                const festivals = await response.json();
+                const container = document.getElementById('festivals-container');
+
+                if (festivals.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">No upcoming festivals scheduled at this time.</p>';
+                    return;
+                }
+
+                container.innerHTML = festivals.map((f, index) => {
+                    const imgUrl = f.image ? (f.image.startsWith('/') ? f.image : '/images/' + f.image) : '/images/images.jpg';
+                    return `
+                        <div class="festival-card reveal" style="transition-delay: ${index * 0.1}s">
+                            <img src="${imgUrl}" alt="${f.title}" onerror="this.src='/images/images.jpg'">
+                            <div class="festival-content">
+                                <span class="festival-date">${f.date}</span>
+                                <h3>${f.title}</h3>
+                                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">${f.description}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Error fetching festivals:', err);
+                document.getElementById('festivals-container').innerHTML = '<p style="text-align: center; color: red;">Failed to load divine content.</p>';
+            }
+        }
+
+        loadFestivals();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+{
+    "name": "murugar-kovil-website",
+    "version": "1.0.0",
+    "description": "Premium Devotional Website for Murugar Kovil",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node --watch server.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "express": "^4.18.2",
+        "express-session": "^1.17.3",
+        "fs-extra": "^11.1.1",
+        "multer": "^2.0.2"
+    }
+}

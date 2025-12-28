@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Murugar Kovil</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <span class="main-logo">Murugar Kovil</span>
+            <span class="sub-logo">A B O D E O F G R A C E</span>
+        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/history.html">History</a></li>
+            <li><a href="/specialities.html">Specialities</a></li>
+            <li><a href="/timings.html">Timings</a></li>
+            <li><a href="/festivals.html">Festivals</a></li>
+            <li><a href="/gallery.html" style="color: var(--accent);">Gallery</a></li>
+            <li><a href="/admin.html">Admin</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero"
+        style="height: 50vh; background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/images/images.jpg');">
+        <div class="hero-content">
+            <span class="divine-text">Divine</span>
+            <h1>Sacred Gallery</h1>
+            <p>Visual glimpses into the celestial world.</p>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="section-title-wrap">
+                <span class="section-subtitle">V I S U A L S P I R I T</span>
+                <h2 class="section-title">Images & Videos</h2>
+            </div>
+
+            <div id="gallery-container" class="gallery-grid">
+                <!-- Data loaded via JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for viewing media -->
+    <div id="mediaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="logo"><span class="main-logo">Murugar Kovil</span></div>
+        <p>© 2025 Arulmigu Murugar Kovil. All Rights Reserved.</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        async function loadGallery() {
+            try {
+                const res = await fetch('/api/gallery?t=' + Date.now());
+                const data = await res.json();
+                const container = document.getElementById('gallery-container');
+
+                if (data.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">No divine media uploaded yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = data.map(m => `
+                    <div class="gallery-item" onclick="openMedia('${m.url}', '${m.type}')">
+                        ${m.type === 'image'
+                        ? `<img src="${m.url}" alt="${m.caption}">`
+                        : `<video src="${m.url}"></video>`}
+                        <div class="overlay">${m.caption || 'Sacred View'}</div>
+                    </div>
+                `).join('');
+            } catch (err) { console.error(err); }
+        }
+
+        function openMedia(url, type) {
+            const modal = document.getElementById('mediaModal');
+            const body = document.getElementById('modal-body');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent scroll
+
+            if (type === 'image') {
+                body.innerHTML = `<img src="${url}">`;
+            } else {
+                body.innerHTML = `<video src="${url}" controls autoplay></video>`;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('mediaModal').style.display = 'none';
+            document.getElementById('modal-body').innerHTML = ''; // Stop video
+            document.body.style.overflow = 'auto'; // Restore scroll
+        }
+
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('mediaModal')) {
+                closeModal();
+            }
+        }
+        loadGallery();
+    </script>
+</body>
+
+</html>

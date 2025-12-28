@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Murugar Kovil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .dashboard-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .mgmt-card {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .fest-item,
+        .spec-item,
+        .timing-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: 0.3s;
+        }
+
+        .fest-item:hover,
+        .spec-item:hover,
+        .timing-item:hover {
+            background: rgba(255, 123, 0, 0.05);
+        }
+
+        .fest-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+        }
+
+        .row-inputs {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .row-inputs input {
+            flex: 1;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 5px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            margin-bottom: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 12px;
+            border-radius: 5px;
+        }
+
+        h3 {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 2.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            border-color: var(--accent);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 15px rgba(255, 123, 0, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .btn-action-del {
+            background: #8b0000;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-action-del:hover {
+            background: #ff0000;
+            transform: scale(1.05);
+        }
+
+        .btn-action-edit {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-action-edit:hover {
+            background: var(--accent);
+            color: black;
+            transform: scale(1.05);
+        }
+
+        label {
+            color: var(--accent);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body style="background: #0d0900;">
+    <nav>
+        <div class="logo">
+            <span class="main-logo">Divine Admin</span>
+        </div>
+        <ul>
+            <li><a href="/">Preview Site</a></li>
+            <li><a href="/api/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <h2 class="section-title">Temple Command Center</h2>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('timings')">Timings</button>
+            <button class="tab-btn" onclick="showTab('history')">History</button>
+            <button class="tab-btn" onclick="showTab('specialities')">Specialities</button>
+            <button class="tab-btn" onclick="showTab('festivals')">Festivals</button>
+            <button class="tab-btn" onclick="showTab('gallery')">Gallery</button>
+        </div>
+
+        <!-- Timings Section -->
+        <div id="timings" class="tab-content active glass-card mgmt-card">
+            <h3>Darshan & Pooja Timings</h3>
+            <div id="timings-list"></div>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button onclick="addTimingRow()" class="btn-divine btn-small" style="background: green; border: none;">+
+                    Add New Schedule</button>
+                <button onclick="saveTimings()" class="btn-divine btn-small">Save Final Changes</button>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.8rem; color: #888;">* Use the red "Delete" button next to each row
+                to remove it.</p>
+        </div>
+
+        <!-- History Section -->
+        <div id="history" class="tab-content glass-card mgmt-card">
+            <h3>Temple History Content</h3>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label>Introduction</label>
+                        <button onclick="clearField('hist-intro')" class="btn-action-del"
+                            style="padding: 2px 10px; font-size: 0.7rem;">Clear text</button>
+                    </div>
+                    <textarea id="hist-intro"></textarea>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label>Architectural Heritage</label>
+                        <button onclick="clearField('hist-arch')" class="btn-action-del"
+                            style="padding: 2px 10px; font-size: 0.7rem;">Clear text</button>
+                    </div>
+                    <textarea id="hist-arch"></textarea>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label>Divine Significance</label>
+                        <button onclick="clearField('hist-sign')" class="btn-action-del"
+                            style="padding: 2px 10px; font-size: 0.7rem;">Clear text</button>
+                    </div>
+                    <textarea id="hist-sign"></textarea>
+                </div>
+                <button onclick="saveHistory()" class="btn-divine">Update Sacred History</button>
+            </div>
+        </div>
+
+        <!-- Specialities Section -->
+        <div id="specialities" class="tab-content glass-card mgmt-card">
+            <h3>Specialities & Features</h3>
+            <div id="specialities-list"></div>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button onclick="addSpecRow()" class="btn-divine btn-small" style="background: green; border: none;">+
+                    Add Feature</button>
+                <button onclick="saveSpecialities()" class="btn-divine btn-small">Save Features</button>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.8rem; color: #888;">* Each speciality has a "Delete Speciality"
+                button for immediate removal from UI.</p>
+        </div>
+
+        <!-- Festivals Section -->
+        <div id="festivals" class="tab-content glass-card mgmt-card">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h3>Current Festivals</h3>
+                    <div id="festivals-list"></div>
+                </div>
+                <div>
+                    <h3 id="festFormTitle">Add New Festival</h3>
+                    <form id="festForm" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <input type="text" id="festTitle" placeholder="Festival Title" required>
+                        <input type="date" id="festDate" required>
+                        <textarea id="festDesc" placeholder="Brief description of the festival..."></textarea>
+                        <label>Festival Image (Optional)</label>
+                        <input type="file" id="festImage" accept="image/*" style="border: none;">
+                        <div style="display: flex; gap: 10px;">
+                            <button type="submit" id="festSubmitBtn" class="btn-divine">Save Festival</button>
+                            <button type="button" id="festCancelBtn" style="display:none; background:#555;"
+                                onclick="resetFestForm()" class="btn-divine">Cancel Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Section -->
+        <div id="gallery" class="tab-content glass-card mgmt-card">
+            <h3>Gallery Management</h3>
+            <form id="uploadForm"
+                style="display: flex; gap: 1rem; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap;">
+                <div>
+                    <label>Upload Media (Image/Video)</label>
+                    <input type="file" id="mediaFile" required style="border: none;">
+                </div>
+                <div>
+                    <label>Caption</label>
+                    <input type="text" id="mediaCaption" placeholder="Write a divine caption...">
+                </div>
+                <button type="submit" class="btn-divine btn-small">Add to Gallery</button>
+            </form>
+            <div id="gallery-mgmt-list"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem;"></div>
+        </div>
+    </div>
+
+    <!-- Gallery Edit Modal -->
+    <div id="galEditModal" class="modal" style="display:none; justify-content:center; align-items:center;">
+        <div class="glass-card" style="width: 400px; border: 2px solid var(--accent);">
+            <h3 style="border-bottom: 1px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px;">Edit Caption
+            </h3>
+            <input type="text" id="editGalCaption"
+                style="width: 100%; padding: 12px; background: rgba(0,0,0,0.5); color:white; border: 1px solid var(--glass-border); border-radius: 5px; margin-bottom: 1.5rem;">
+            <div style="display: flex; gap: 10px;">
+                <button onclick="saveGalEdit()" class="btn-divine btn-small" style="flex: 1;">Update</button>
+                <button onclick="closeGalModal()" class="btn-divine btn-small"
+                    style="background:#555; flex: 1;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let editingFestId = null;
+        let editingGalId = null;
+        let allFestivals = [];
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function loadData() {
+            // Timings
+            const tRes = await fetch('/api/timings?t=' + Date.now());
+            const timings = await tRes.json();
+            const tContainer = document.getElementById('timings-list');
+            tContainer.innerHTML = '';
+            timings.forEach(t => createTimingRow(t.event, t.time));
+
+            // History
+            const hRes = await fetch('/api/history?t=' + Date.now());
+            const history = await hRes.json();
+            document.getElementById('hist-intro').value = history.introduction || '';
+            document.getElementById('hist-arch').value = history.architecture || '';
+            document.getElementById('hist-sign').value = history.significance || '';
+
+            // Specialities
+            const sRes = await fetch('/api/specialities?t=' + Date.now());
+            const specs = await sRes.json();
+            const sContainer = document.getElementById('specialities-list');
+            sContainer.innerHTML = '';
+            specs.forEach(s => createSpecRow(s.icon, s.title, s.description));
+
+            // Festivals
+            const fRes = await fetch('/api/festivals?t=' + Date.now());
+            allFestivals = await fRes.json();
+            const fContainer = document.getElementById('festivals-list');
+            fContainer.innerHTML = allFestivals.map(f => `
+                <div class="fest-item">
+                    <div style="display: flex; gap: 1rem; align-items:center;">
+                        <img src="${f.image.startsWith('/') ? f.image : '/images/' + f.image}">
+                        <div>
+                            <strong>${f.title}</strong><br>
+                            <small style="color:var(--secondary);">${f.date}</small>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <button onclick="editFest(${f.id})" class="btn-action-edit">Edit</button>
+                        <button onclick="deleteFest(${f.id})" class="btn-action-del">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Gallery
+            const gRes = await fetch('/api/gallery?t=' + Date.now());
+            const gall = await gRes.json();
+            const gContainer = document.getElementById('gallery-mgmt-list');
+            gContainer.innerHTML = gall.map(m => `
+                <div style="background: var(--glass); padding: 10px; border-radius: 12px; text-align:center; border: 1px solid var(--glass-border);">
+                    ${m.type === 'image' ? `<img src="${m.url}" style="width:100%; height:120px; object-fit:cover; border-radius:8px;">` : `<video src="${m.url}" style="width:100%; height:120px; object-fit:cover; border-radius:8px;"></video>`}
+                    <div style="font-size:0.8rem; margin: 12px 0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:var(--accent);">${m.caption || 'No caption'}</div>
+                    <div style="display:flex; gap:8px;">
+                        <button onclick="openGalModal(${m.id}, '${(m.caption || '').replace(/'/g, "\\'")}')" class="btn-action-edit" style="flex:1;">Edit</button>
+                        <button onclick="deleteMedia(${m.id})" class="btn-action-del" style="flex:1;">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Timings CRUD ---
+        function createTimingRow(event = '', time = '') {
+            const container = document.getElementById('timings-list');
+            const div = document.createElement('div');
+            div.className = 'timing-item';
+            div.innerHTML = `
+                <div class="row-inputs">
+                    <input type="text" value="${event}" placeholder="Event Name (e.g. Temple Opening)">
+                    <input type="text" value="${time}" placeholder="Time (e.g. 05:00 AM)">
+                    <button onclick="this.parentElement.parentElement.remove()" class="btn-action-del" title="Remove row">Delete</button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+        function addTimingRow() { createTimingRow(); }
+        async function saveTimings() {
+            const data = [];
+            document.querySelectorAll('#timings-list .row-inputs').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs[0].value) data.push({ event: inputs[0].value, time: inputs[1].value });
+            });
+            const res = await fetch('/api/timings/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) alert('✅ Schedule saved successfully!');
+        }
+
+        // --- History CRUD ---
+        async function saveHistory() {
+            const data = {
+                introduction: document.getElementById('hist-intro').value,
+                architecture: document.getElementById('hist-arch').value,
+                significance: document.getElementById('hist-sign').value
+            };
+            const res = await fetch('/api/history/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) alert('✅ Sacred history updated!');
+        }
+        function clearField(id) {
+            if (confirm('Clear all text for this section?')) document.getElementById(id).value = '';
+        }
+
+        // --- Specialities CRUD ---
+        function createSpecRow(icon = '🕉️', title = '', desc = '') {
+            const container = document.getElementById('specialities-list');
+            const div = document.createElement('div');
+            div.className = 'glass-card spec-item';
+            div.style.flexDirection = 'column';
+            div.style.alignItems = 'stretch';
+            div.innerHTML = `
+                <div class="row-inputs" style="margin-bottom: 10px;">
+                    <input type="text" value="${icon}" style="max-width: 60px; text-align:center;" placeholder="Icon">
+                    <input type="text" value="${title}" placeholder="Speciality Title (e.g. The Swayambhu Idol)">
+                    <button onclick="this.parentElement.parentElement.remove()" class="btn-action-del">Delete Speciality</button>
+                </div>
+                <textarea style="margin-bottom:0; height:80px;" placeholder="Full description of this speciality...">${desc}</textarea>
+            `;
+            container.appendChild(div);
+        }
+        function addSpecRow() { createSpecRow(); }
+        async function saveSpecialities() {
+            const data = [];
+            document.querySelectorAll('#specialities-list .spec-item').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                const desc = row.querySelector('textarea').value;
+                if (inputs[1].value) data.push({ icon: inputs[0].value, title: inputs[1].value, description: desc });
+            });
+            const res = await fetch('/api/specialities/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) alert('✅ Temple specialities saved!');
+        }
+
+        // --- Festivals CRUD ---
+        document.getElementById('festForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('title', document.getElementById('festTitle').value);
+            formData.append('date', document.getElementById('festDate').value);
+            formData.append('description', document.getElementById('festDesc').value);
+            const img = document.getElementById('festImage').files[0];
+            if (img) formData.append('image', img);
+
+            const url = editingFestId ? `/api/festivals/edit/${editingFestId}` : '/api/festivals/add';
+            const res = await fetch(url, { method: 'POST', body: formData });
+            if (res.ok) {
+                resetFestForm();
+                loadData();
+                alert(editingFestId ? '✅ Festival updated!' : '✅ New festival added!');
+            }
+        });
+
+        function editFest(id) {
+            const f = allFestivals.find(item => item.id == id);
+            if (!f) return;
+            editingFestId = id;
+            document.getElementById('festTitle').value = f.title;
+            document.getElementById('festDate').value = f.date;
+            document.getElementById('festDesc').value = f.description || '';
+            document.getElementById('festFormTitle').innerText = 'Editing: ' + f.title;
+            document.getElementById('festSubmitBtn').innerText = 'Save Changes';
+            document.getElementById('festCancelBtn').style.display = 'block';
+            document.getElementById('festForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetFestForm() {
+            editingFestId = null;
+            document.getElementById('festForm').reset();
+            document.getElementById('festFormTitle').innerText = 'Add New Festival';
+            document.getElementById('festSubmitBtn').innerText = 'Save Festival';
+            document.getElementById('festCancelBtn').style.display = 'none';
+        }
+
+        async function deleteFest(id) {
+            if (confirm('PERMANENTLY delete this festival and its image?')) {
+                const res = await fetch(`/api/festivals/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    loadData();
+                    alert('🗑️ Festival deleted.');
+                }
+            }
+        }
+
+        // --- Gallery CRUD ---
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('file', document.getElementById('mediaFile').files[0]);
+            formData.append('caption', document.getElementById('mediaCaption').value);
+            const res = await fetch('/api/gallery/upload', { method: 'POST', body: formData });
+            if (res.ok) {
+                e.target.reset();
+                loadData();
+                alert('✅ Media added to gallery!');
+            }
+        });
+
+        async function deleteMedia(id) {
+            if (confirm('PERMANENTLY delete this media item from server?')) {
+                const res = await fetch(`/api/gallery/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    loadData();
+                    alert('🗑️ Media deleted.');
+                }
+            }
+        }
+
+        function openGalModal(id, caption) {
+            editingGalId = id;
+            document.getElementById('editGalCaption').value = caption;
+            document.getElementById('galEditModal').style.display = 'flex';
+        }
+        function closeGalModal() { document.getElementById('galEditModal').style.display = 'none'; }
+
+        async function saveGalEdit() {
+            const caption = document.getElementById('editGalCaption').value;
+            const res = await fetch(`/api/gallery/edit/${editingGalId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ caption })
+            });
+            if (res.ok) {
+                closeGalModal();
+                loadData();
+            }
+        }
+
+        async function checkAuth() {
+            const res = await fetch('/api/check-auth');
+            const data = await res.json();
+            if (!data.authenticated) window.location.href = '/admin.html';
+        }
+
+        // Start
+        checkAuth().then(loadData);
+    </script>
+</body>
+
+</html>

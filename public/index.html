@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Murugar Kovil | Divine Temple of Lord Muruga</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <span class="main-logo">Murugar Kovil</span>
+            <span class="sub-logo">A B O D E O F G R A C E</span>
+        </div>
+        <ul>
+            <li><a href="/" style="color: var(--accent);">Home</a></li>
+            <li><a href="/history.html">History</a></li>
+            <li><a href="/specialities.html">Specialities</a></li>
+            <li><a href="/timings.html">Timings</a></li>
+            <li><a href="/festivals.html">Festivals</a></li>
+            <li><a href="/gallery.html">Gallery</a></li>
+            <li><a href="/admin.html">Admin</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero"
+        style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/images/cute-murugan-4k-ai-image-for-mobile-9216145.jpg');">
+        <div class="hero-content">
+            <span class="divine-text" style="color: var(--accent);">Om Saravanabhava</span>
+            <h1>Arulmigu Murugar Kovil</h1>
+            <p>Experience the divine grace of Lord Muruga, the celestial commander of courage and victory.</p>
+            <a href="/timings.html" class="btn-divine">Plan Your Darshan</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="welcome">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">W E L C O M E H O M E</span>
+                <h2 class="section-title">The Path to Salvation</h2>
+            </div>
+
+            <div class="glass-card" style="text-align: center; max-width: 900px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">Welcome to the sacred Arulmigu Murugar Kovil, a
+                    historic sanctuary where faith meets eternity. Here, the melodious tinkling of temple bells and the
+                    soulful chants create an atmosphere of unparalleled peace.</p>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div>
+                        <h3 style="color: var(--accent); margin-bottom: 0.5rem;">600+</h3>
+                        <p style="color: var(--text-gold);">Years of History</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent); margin-bottom: 0.5rem;">Daily</h3>
+                        <p style="color: var(--text-gold);">Sacred Annadanam</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent); margin-bottom: 0.5rem;">10k+</h3>
+                        <p style="color: var(--text-gold);">Monthly Devotees</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="home-festivals"
+            style="background: rgba(92, 0, 0, 0.05); border-top: 1px solid var(--accent); border-bottom: 1px solid var(--accent);">
+            <div class="section-title-wrap">
+                <span class="section-subtitle">U P C O M I N G</span>
+                <h2 class="section-title">Major Festivals</h2>
+            </div>
+
+            <div id="home-fest-container" class="festival-grid">
+                <!-- Data loaded via JS -->
+            </div>
+
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="/festivals.html" class="btn-divine"
+                    style="background: transparent; border: 1px solid var(--accent);">View All Festivals</a>
+            </div>
+        </section>
+
+        <section id="cta" style="text-align: center;">
+            <div class="glass-card">
+                <h2 class="section-title" style="margin-bottom: 2rem;">Stay Connected With the Divine</h2>
+                <p style="margin-bottom: 2rem;">Follow us for daily darshan updates, festival announcements, and
+                    spiritual wisdom.</p>
+                <div style="display: flex; justify-content: center; gap: 2rem;">
+                    <a href="#" style="color: var(--accent); text-decoration: none; font-weight: bold;">FACEBOOK</a>
+                    <a href="#" style="color: var(--accent); text-decoration: none; font-weight: bold;">INSTAGRAM</a>
+                    <a href="#" style="color: var(--accent); text-decoration: none; font-weight: bold;">YOUTUBE</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="logo">
+            <span class="main-logo">Murugar Kovil</span>
+        </div>
+        <p>© 2025 Arulmigu Murugar Kovil. All Rights Reserved.</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        async function loadHomeFestivals() {
+            try {
+                const res = await fetch('/api/festivals?limit=3&t=' + Date.now());
+                const data = await res.json();
+                const container = document.getElementById('home-fest-container');
+
+                // Show only latest 3
+                const displayData = data.slice(0, 3);
+
+                if (displayData.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Check back soon for divine celebrations.</p>';
+                    return;
+                }
+
+                container.innerHTML = displayData.map(f => `
+                    <div class="festival-card">
+                        <img src="${f.image.startsWith('/') ? f.image : '/images/' + f.image}" onerror="this.src='/images/images.jpg'">
+                        <div class="festival-content">
+                            <span class="festival-date">${f.date}</span>
+                            <h3>${f.title}</h3>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) { console.error(err); }
+        }
+        loadHomeFestivals();
+    </script>
+</body>
+
+</html>

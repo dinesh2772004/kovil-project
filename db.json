@@ -1,0 +1,85 @@
+{
+  "admin": [
+    {
+      "username": "admin",
+      "password": "123"
+    }
+  ],
+  "history": {
+    "introduction": "The origins of Arulmigu Murugar Kovil date back over a thousand years. According to local legend, the temple was founded by a great saint who had a vision of Lord Muruga appearing as a youthful warrior.",
+    "architecture": "The temple features breathtaking Dravidian architecture, with intricately carved pillars and a majestic Rajagopuram (main tower) that reaches towards the sky.",
+    "significance": "Lord Muruga here is worshipped in his form as 'Sivasubramanya', the master of all knowledge and the protector of the righteous."
+  },
+  "specialities": [
+    {
+      "icon": "🕉️",
+      "title": "asdfasfd",
+      "description": "sdf"
+    },
+    {
+      "icon": "🕉️",
+      "title": "asfasfasf",
+      "description": "afsa"
+    }
+  ],
+  "festivals": [
+    {
+      "id": 1,
+      "title": "Thaipusam",
+      "date": "2025-02-11",
+      "description": "Grand celebration with Kavadi Aatam and special poojas.",
+      "image": "images.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Skanda Shashti",
+      "date": "2025-11-20",
+      "description": "Celebrating the victory over Soorapadman with Soorasamharam.",
+      "image": "images.jpg"
+    }
+  ],
+  "timings": [
+    {
+      "event": "Temple Open",
+      "time": "05:00 AM"
+    },
+    {
+      "event": "Vishwaroopa Darshanam",
+      "time": "05:30 AM"
+    },
+    {
+      "event": "Udhaya Marthanda Pooja",
+      "time": "08:00 AM"
+    },
+    {
+      "event": "Utchikkala Pooja",
+      "time": "12:30 PM"
+    },
+    {
+      "event": "Sayaraksha Pooja",
+      "time": "06:30 PM"
+    },
+    {
+      "event": "Arthajama Pooja",
+      "time": "08:30 PM"
+    },
+    {
+      "event": "Temple Closing",
+      "time": "09:00 PM"
+    }
+  ],
+  "gallery": [
+    {
+      "id": 1766936424666,
+      "type": "image",
+      "url": "/uploads/1766936424656.jpg",
+      "caption": "aa"
+    },
+    {
+      "id": 1766936439857,
+      "type": "image",
+      "url": "/uploads/1766936439848.jpg",
+      "caption": "vv"
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Murugar Kovil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 5rem auto;
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 5px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .login-btn {
+            width: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">Murugar Kovil</div>
+        <div class="menu-toggle">
+            <span></span><span></span><span></span>
+        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/history.html">History</a></li>
+            <li><a href="/specialities.html">Specialities</a></li>
+            <li><a href="/timings.html">Timings</a></li>
+            <li><a href="/festivals.html">Festivals</a></li>
+            <li><a href="/gallery.html">Gallery</a></li>
+            <li><a href="/admin.html">Admin</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="glass-card login-container fade-in">
+            <h2 class="section-title" style="font-size: 1.5rem;">Admin Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-divine login-btn">Sign In</button>
+            </form>
+            <p id="message" style="margin-top: 1rem; text-align: center; font-size: 0.9rem;"></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Arulmigu Murugar Kovil</p>
+    </footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById('message').style.color = 'lime';
+                    document.getElementById('message').innerText = 'Login successful! Entering dashboard...';
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1000);
+                } else {
+                    document.getElementById('message').style.color = 'red';
+                    document.getElementById('message').innerText = 'Invalid username or password.';
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+
+</html>

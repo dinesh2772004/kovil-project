@@ -1,0 +1,444 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Outfit:wght@200;300;400;600&family=Great+Vibes&display=swap');
+
+:root {
+    --primary: #5c0000;
+    /* Richer deep red */
+    --secondary: #ff7b00;
+    /* Vibrant saffron */
+    --accent: #ffd700;
+    /* Pure gold */
+    --accent-glow: #ffea00;
+    --bg-dark: #0a0700;
+    /* Richer black */
+    --text-white: #ffffff;
+    --text-gold: #d4af37;
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-heavy: rgba(139, 0, 0, 0.1);
+    --border-gold: 1px solid rgba(212, 175, 55, 0.4);
+    --shadow-divine: 0 10px 40px rgba(0, 0, 0, 0.8);
+    --transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background: radial-gradient(circle at center, #1a0f00 0%, #0a0700 100%);
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Background Motifs - Fixed to viewport */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(92, 0, 0, 0.2) 0%, transparent 80%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Cinzel Decorative', cursive;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.divine-text {
+    font-family: 'Great Vibes', cursive;
+    color: var(--secondary);
+    font-size: 2.5rem;
+    text-transform: none;
+    letter-spacing: 1px;
+}
+
+/* Navbar Enhancement */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 8%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    border-bottom: 2px solid var(--accent);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+}
+
+nav .logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav .logo .main-logo {
+    font-size: 1.6rem;
+    color: var(--accent);
+    text-shadow: 0 0 15px var(--accent-glow);
+    font-weight: 900;
+}
+
+nav .logo .sub-logo {
+    font-size: 0.6rem;
+    color: var(--secondary);
+    letter-spacing: 4px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 2rem;
+}
+
+nav ul li a {
+    color: var(--text-white);
+    text-decoration: none;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    transition: var(--transition);
+    position: relative;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: var(--transition);
+}
+
+nav ul li a:hover {
+    color: var(--accent);
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section - Super Premium */
+.hero {
+    height: 80vh;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+    /* Mobile friendly by default */
+    position: relative;
+    border-bottom: 5px solid var(--accent);
+}
+
+@media (min-width: 1024px) {
+    .hero {
+        background-attachment: fixed;
+        /* Parallax effect for desktop */
+    }
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(transparent, var(--bg-dark));
+}
+
+.hero-content {
+    z-index: 10;
+    max-width: 900px;
+    padding: 0 2rem;
+}
+
+.hero h1 {
+    font-size: 4.5rem;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(0, 0, 0, 1), 0 0 10px rgba(255, 215, 0, 0.5);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    font-size: 1.4rem;
+    color: var(--text-white);
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 2.5rem;
+}
+
+/* Section Styling */
+section {
+    padding: 6rem 10%;
+    position: relative;
+}
+
+.section-title-wrap {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.section-title {
+    font-size: 3rem;
+    color: var(--accent);
+    display: inline-block;
+}
+
+.section-subtitle {
+    display: block;
+    color: var(--secondary);
+    font-size: 1rem;
+    letter-spacing: 5px;
+    margin-top: 10px;
+}
+
+/* Glass Cards */
+.glass-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    backdrop-filter: blur(15px);
+    border: var(--border-gold);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: var(--shadow-divine);
+    transition: var(--transition);
+}
+
+.glass-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(255, 215, 0, 0.1);
+}
+
+/* Festival Grid */
+.festival-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 3rem;
+}
+
+.festival-card {
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    background: var(--bg-dark);
+    border: var(--border-gold);
+    height: 500px;
+    transition: var(--transition);
+}
+
+.festival-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.7s;
+}
+
+.festival-card:hover img {
+    transform: scale(1.1) rotate(1deg);
+    filter: brightness(0.6);
+}
+
+.festival-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2.5rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9) 30%, rgba(92, 0, 0, 0.95));
+    transform: translateY(100px);
+    transition: var(--transition);
+}
+
+.festival-card:hover .festival-content {
+    transform: translateY(0);
+}
+
+.festival-content h3 {
+    color: var(--accent);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.festival-date {
+    color: var(--secondary);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Buttons */
+.btn-divine {
+    display: inline-block;
+    padding: 1.2rem 3rem;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 100px;
+    border: 2px solid var(--accent);
+    box-shadow: 0 10px 20px rgba(92, 0, 0, 0.4);
+    transition: var(--transition);
+}
+
+.btn-divine:hover {
+    box-shadow: 0 15px 30px rgba(255, 123, 0, 0.6);
+    transform: scale(1.05);
+}
+
+/* Gallery Grid Styles */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.gallery-item {
+    aspect-ratio: 1;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    border: var(--border-gold);
+}
+
+.gallery-item img,
+.gallery-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Footer */
+footer {
+    padding: 5rem 10% 2rem;
+    background: #000;
+    border-top: 3px solid var(--accent);
+    text-align: center;
+}
+
+footer .logo {
+    margin-bottom: 2rem;
+}
+
+footer p {
+    color: var(--text-gold);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    nav ul {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+        color: var(--accent);
+        font-size: 2rem;
+    }
+}
+
+/* Animation utilities */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1s ease-out;
+}
+
+[data-reveal].reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Modal for Media - Centered and Fixed */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal-content {
+    width: 90%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    animation: zoomIn 0.3s ease-out;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content img,
+.modal-content video {
+    max-width: 100%;
+    max-height: 100%;
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 30px var(--accent);
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.close-modal {
+    position: absolute;
+    top: -60px;
+    right: 0;
+    color: var(--accent);
+    font-size: 3.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
